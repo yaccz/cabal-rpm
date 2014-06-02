@@ -312,20 +312,20 @@ findDocs cabalPath pkgDesc = do
         unlikely name = not $ any (`isSuffixOf` name) ["~"]
 
 showLicense :: License -> String
-showLicense (GPL Nothing) = "GPL+"
-showLicense (GPL (Just ver)) = "GPLv" ++ showVersion ver ++ "+"
-showLicense (LGPL Nothing) = "LGPLv2+"
-showLicense (LGPL (Just ver)) = "LGPLv" ++ [head $ showVersion ver] ++ "+"
-showLicense BSD3 = "BSD"
-showLicense BSD4 = "BSD"
+showLicense (GPL Nothing) = "GPL-1.0+"
+showLicense (GPL (Just ver)) = "GPL-" ++ showVersion ver ++ "+"
+showLicense (LGPL Nothing) = "LGPL-2.0+"
+showLicense (LGPL (Just ver)) = "LGPL-" ++ [head $ showVersion ver] ++ "+"
+showLicense BSD3 = "BSD-3-Clause"
+showLicense BSD4 = "BSD-4-Clause"
 showLicense MIT = "MIT"
-showLicense PublicDomain = "Public Domain"
-showLicense AllRightsReserved = "Proprietary"
+showLicense PublicDomain = "SUSE-Public-Domain"
+showLicense AllRightsReserved = "SUSE-NonFree"
 showLicense OtherLicense = "Unknown"
 showLicense (UnknownLicense l) = "Unknown" +-+ l
 #if MIN_VERSION_Cabal(1,16,0)
-showLicense (Apache Nothing) = "ASL ?"
-showLicense (Apache (Just ver)) = "ASL" +-+ showVersion ver
+showLicense (Apache Nothing) = "Apache-2.0"
+showLicense (Apache (Just ver)) = "Apache-" +-+ showVersion ver
 #endif
 #if MIN_VERSION_Cabal(1,18,0)
 showLicense (AGPL Nothing) = "AGPLv?"
