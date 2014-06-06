@@ -20,6 +20,7 @@ module Setup (
     , OS (..)
     , detectOS
     , detectOSFallback
+    , detectOSFailureWarning
     , parseArgs
     ) where
 
@@ -145,6 +146,11 @@ instance Show OS where
     show SUSE   = "suse"
     show Fedora = "fedora"
 
+instance Read OS where
+    readsPrec _ "suse"   = [(SUSE, "")]
+    readsPrec _ "fedora" = [(Fedora, "")]
+    readsPrec _ _        = []
+
 detectOS :: IO (Maybe OS)
 detectOS = do
     let maps = [
@@ -161,14 +167,19 @@ detectOS = do
             detect (x:xs) (y:ys) = if y then Just $ snd x
                                         else detect xs ys
 
+fallbackOS :: OS
+fallbackOS = Fedora
+
+detectOSFailureWarning :: String
+detectOSFailureWarning = 
+    "warning: Failed to detect your OS. Falling back to " 
+    ++ show fallbackOS
+
 detectOSFallback :: IO OS
 detectOSFallback = do
     m <- detectOS
     case m of
         Nothing -> do
-            hPutStrLn stderr $
-                "warning: Failed to detect your OS. Falling back to "
-                ++ show fallback
-            return fallback
+            hPutStrLn stderr $ detectOSFailureWarning
+            return fallbackOS
         Just x -> return x
-        where fallback = Fedora

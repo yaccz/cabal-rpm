@@ -64,3 +64,12 @@ Executable cblrpm
     Hs-Source-Dirs:     src
     GHC-options:        -fwarn-missing-signatures -Wall
     Extensions:         CPP
+
+Executable cblrpm-acceptance-tests
+    Main-is:            Acceptance.hs
+    Build-depends:        hspec
+                        , process
+                        , MissingH
+    Other-modules:
+        Setup
+    Hs-Source-Dirs:     src
